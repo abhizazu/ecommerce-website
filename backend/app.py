@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+import os
 
 app = Flask(__name__)
 CORS(app)
@@ -41,9 +42,6 @@ def get_orders():
     orders = Order.query.all()
     return jsonify([{"id": o.id, "product_id": o.product_id, "customer_name": o.customer_name, "quantity": o.quantity} for o in orders])
 
-if __name__ == '__main__':
-    db.create_all()
-    app.run(debug=True)
-
 if __name__ == "__main__":
+    db.create_all()  # This ensures the database is initialized
     app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 5000)))
